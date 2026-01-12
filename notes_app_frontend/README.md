@@ -1,82 +1,44 @@
-# Lightweight React Template for KAVIA
+# Notes App Frontend (React)
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A lightweight personal notes manager UI built with React (no heavy UI libraries).  
+It supports creating, viewing, editing, deleting notes, plus search and tag filtering.
 
-## Features
+## Environment variables
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+This app reads the backend base URL from:
 
-## Getting Started
+- `REACT_APP_API_BASE` (preferred)
+- `REACT_APP_BACKEND_URL` (fallback)
 
-In the project directory, you can run:
+If neither is set, the app runs fully client-side.
 
-### `npm start`
+## API + fallback behavior (API → localStorage)
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+The app uses an **API-first** strategy:
 
-### `npm test`
+1. If `REACT_APP_API_BASE` or `REACT_APP_BACKEND_URL` is set, the UI will attempt to call:
+   - `GET    /notes`
+   - `POST   /notes`
+   - `PUT    /notes/:id`
+   - `DELETE /notes/:id`
 
-Launches the test runner in interactive watch mode.
+2. If the API is unreachable (network error / non-OK responses), the app automatically falls back to **localStorage** persistence.
 
-### `npm run build`
+3. When API calls succeed, results are mirrored into localStorage (best-effort) so the app remains usable offline.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Local storage key: `notes_app_v1`
 
-## Customization
+## UX Notes
 
-### Colors
+- **Keyboard**: `Ctrl + N` (Windows/Linux) or `⌘ + N` (macOS) creates a new note.
+- **Filtering**: Search by title/content; click tags to filter; clear tags to reset.
+- **Sample data**: On first run (or when storage is empty/corrupted), the app shows sample notes to make the UI feel alive immediately.
 
-The main brand colors are defined as CSS variables in `src/App.css`:
+## Running
 
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
-```
+In this directory:
 
-### Components
+- `npm install`
+- `npm start`
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
-
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
-
-## Learn More
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The app runs on port **3000** with standard Create React App tooling.
